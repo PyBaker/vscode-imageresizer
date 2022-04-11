@@ -12,7 +12,15 @@ export function activate(context: vscode.ExtensionContext) {
 
       let userInput = vscode.window.showInputBox();
       userInput.then(widthXheight => {
-        let resizeDimensions = widthXheight.split("x");
+        
+        // Old_code --> let resizeDimensions = widthXheight.split("x");
+        let resizeDimensions
+
+        // Allow an asterisk (*) as x by conversion of " * " to " x " 
+        if (/\d+\s*\*\s*\d+/.test(widthXheight)) {
+            widthXheight = widthXheight.replace(/\*/, "x")
+            resizeDimensions = widthXheight.split("x");
+        }
 
         if (resizeDimensions[0] == null || resizeDimensions[1] == null) {
           vscode.window.showInformationMessage(
